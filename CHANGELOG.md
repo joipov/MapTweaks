@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.0
+
+Renamed to MapTweaks. The world map also shows unexplored terrain, zone level ranges, and instance entrances.
+
+### Added
+
+- Unexplored parts of a zone map, in a dim blue tint under the explored tiles.
+- The level range of the zone under the cursor, after its name, colored like a quest level.
+- Dungeon and raid entrance pins with the retail icons. A complex lists each wing. Clicking one sets a waypoint, and the pins follow the map's "Show instance entrances" checkbox.
+
 ## 1.0.0
 
 Boats and zeppelins on the world map.

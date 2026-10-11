@@ -1,10 +1,10 @@
 -- Adapted from Shortest Path Forever by cjber, GPL-3.0-or-later.
 -- https://github.com/cjber/shortest-path-forever
 -- Dock pins on the world map. Hover draws that crossing and names where it goes.
-local addonName, ns = ...
+local _, ns = ...
 
-local PIN_TEMPLATE = "TransportsDockPinTemplate"
-local PING_TEMPLATE = "TransportsPingPinTemplate"
+local PIN_TEMPLATE = "MapTweaksDockPinTemplate"
+local PING_TEMPLATE = "MapTweaksPingPinTemplate"
 local PIN_SIZE = 20
 -- Half a pin, as a fraction of a zoomed-out map.
 local EDGE = 0.015
@@ -36,7 +36,7 @@ local atlasInfo
 local function SetTransportIcon(texture, kind)
 	if kind == "zeppelin" then
 		texture:SetTexCoord(0, 1, 0, 1)
-		texture:SetTexture("Interface\\AddOns\\Transports\\media\\zeppelin")
+		texture:SetTexture("Interface\\AddOns\\MapTweaks\\media\\zeppelin")
 		texture:SetSize(PIN_SIZE, PIN_SIZE)
 		return
 	end
@@ -325,9 +325,9 @@ local function AddEndsLine(ends)
 	end
 end
 
-TransportsDockPinMixin = CreateFromMixins(MapCanvasPinMixin)
+MapTweaksDockPinMixin = CreateFromMixins(MapCanvasPinMixin)
 
-function TransportsDockPinMixin:OnLoad()
+function MapTweaksDockPinMixin:OnLoad()
 	-- Above town, flight point and dungeon icons, so a dock beside one still takes the hover.
 	self:UseFrameLevelType("PIN_FRAME_LEVEL_GOSSIP")
 	self:SetScalingLimits(1, 1, 1.2)
@@ -335,14 +335,14 @@ function TransportsDockPinMixin:OnLoad()
 	self:SetScript("OnHide", self.OnMouseLeave)
 end
 
-function TransportsDockPinMixin:OnAcquired(cluster)
+function MapTweaksDockPinMixin:OnAcquired(cluster)
 	self.cluster = cluster
 	SetTransportIcon(self.Texture, cluster.kind)
 	SetTransportIcon(self.HighlightTexture, cluster.kind)
 	self:SetPosition(cluster.x, cluster.y)
 end
 
-function TransportsDockPinMixin:GetEnds()
+function MapTweaksDockPinMixin:GetEnds()
 	local candidates = {}
 	for _, dock in ipairs(self.cluster.docks) do
 		for _, dest in ipairs(Destinations(dock.id)) do
@@ -352,13 +352,13 @@ function TransportsDockPinMixin:GetEnds()
 	return Ends(self:GetMap():GetMapID(), candidates)
 end
 
-function TransportsDockPinMixin:RefreshTooltip()
+function MapTweaksDockPinMixin:RefreshTooltip()
 	AddDockTooltip(self.cluster)
 	AddEndsLine(self:GetEnds())
 	GameTooltip:Show()
 end
 
-function TransportsDockPinMixin:OnMouseEnter()
+function MapTweaksDockPinMixin:OnMouseEnter()
 	local routes = {}
 	for _, dock in ipairs(self.cluster.docks) do
 		for _, routeID in ipairs(ns.RoutesAtDock[dock.id]) do
@@ -371,7 +371,7 @@ function TransportsDockPinMixin:OnMouseEnter()
 	self:RefreshTooltip()
 end
 
-function TransportsDockPinMixin:OnMouseLeave()
+function MapTweaksDockPinMixin:OnMouseLeave()
 	ns.HoverRoutes(self, nil)
 	if provider then
 		provider:HideDestinations()
@@ -381,14 +381,14 @@ function TransportsDockPinMixin:OnMouseLeave()
 	end
 end
 
-function TransportsDockPinMixin:OnReleased()
+function MapTweaksDockPinMixin:OnReleased()
 	self:OnMouseLeave()
 	self.Glow:Hide()
 	self.cluster = nil
 	MapCanvasPinMixin.OnReleased(self)
 end
 
-TransportsDockPinMixin.OnMouseClickAction = OpenEnds
+MapTweaksDockPinMixin.OnMouseClickAction = OpenEnds
 
 local ProviderMixin = CreateFromMixins(MapCanvasDataProviderMixin)
 
@@ -467,48 +467,10 @@ function ProviderMixin:OnCanvasScaleChanged()
 	self:RefreshAllData()
 end
 
-local queueFrame
-
-function ns.QueueRefresh()
-	if not queueFrame then
-		queueFrame = CreateFrame("Frame")
-		queueFrame:SetScript("OnEvent", function(self)
-			self:UnregisterEvent("PLAYER_REGEN_ENABLED")
-			if ns.RefreshLines then
-				ns.RefreshLines()
-			end
-			if ns.RefreshDocks then
-				ns.RefreshDocks()
-			end
-		end)
-	end
-	if not queueFrame:IsEventRegistered("PLAYER_REGEN_ENABLED") then
-		queueFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
-	end
-end
-
-local installed = false
-
-local function Install()
-	if installed or not WorldMapFrame then
-		return
-	end
-	installed = true
-	ns.SetupLines(WorldMapFrame)
+function ns.SetupDocks(map)
 	provider = CreateFromMixins(ProviderMixin)
-	WorldMapFrame:AddDataProvider(provider)
+	map:AddDataProvider(provider)
 	ns.RefreshDocks = function()
 		provider:RefreshAllData()
 	end
-end
-
-local loader = CreateFrame("Frame")
-loader:RegisterEvent("ADDON_LOADED")
-loader:SetScript("OnEvent", function(_, _, name)
-	if name == addonName or name == "Blizzard_WorldMap" then
-		Install()
-	end
-end)
-if C_AddOns.IsAddOnLoaded("Blizzard_WorldMap") then
-	Install()
 end

@@ -1,0 +1,23 @@
+## Interface: 16001
+## Title: MapTweaks
+## Notes: Boats, zeppelins, unexplored areas, zone levels, and instance entrances on the world map.
+## Author: Joipov
+## Version: 1.1.0
+## Category: |cffc4b5fdJoipov|r Tools
+## IconTexture: Interface\AddOns\MapTweaks\media\zeppelin
+## X-License: GPL-3.0-or-later
+## X-Website: https://github.com/joipov/MapTweaks
+## AllowLoadGameType: camelot
+
+Transports.lua
+Lines.lua
+Docks.xml
+Docks.lua
+Overlays.lua
+Exploration.lua
+ZoneRanges.lua
+ZoneLevels.lua
+EntranceData.lua
+Entrances.xml
+Entrances.lua
+Load.lua

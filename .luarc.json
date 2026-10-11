@@ -21,8 +21,9 @@
   ],
   "workspace.checkThirdParty": false,
   "diagnostics.globals": [
-    "TransportsDockPinMixin",
-    "TransportsRoutePinMixin"
+    "MapTweaksDockPinMixin",
+    "MapTweaksEntrancePinMixin",
+    "MapTweaksRoutePinMixin"
   ],
   "diagnostics.severity": {
     "undefined-global": "Error",

@@ -3,7 +3,7 @@
 -- The world-map crossing: a solid line with a dark outline, and a curve where the route changes continent.
 local _, ns = ...
 
-local TEMPLATE = "TransportsRoutePinTemplate"
+local TEMPLATE = "MapTweaksRoutePinTemplate"
 local THICKNESS = 2
 local UNDER_THICKNESS = THICKNESS + 2
 local UNDER_ALPHA = 0.5
@@ -266,9 +266,9 @@ local function Paint(owner, strokes)
 	owner.used = strokes.n
 end
 
-TransportsRoutePinMixin = CreateFromMixins(MapCanvasPinMixin)
+MapTweaksRoutePinMixin = CreateFromMixins(MapCanvasPinMixin)
 
-function TransportsRoutePinMixin:OnLoad()
+function MapTweaksRoutePinMixin:OnLoad()
 	self:UseFrameLevelType("PIN_FRAME_LEVEL_FOG_OF_WAR")
 	self:SetIgnoreGlobalPinScale(true)
 	self:SetScaleStyle(AM_PIN_SCALE_STYLE_WITH_TERRAIN)
@@ -277,7 +277,7 @@ function TransportsRoutePinMixin:OnLoad()
 	self.strokes = NewStrokes()
 end
 
-function TransportsRoutePinMixin:UpdateAlpha()
+function MapTweaksRoutePinMixin:UpdateAlpha()
 	local strokes = self.strokes
 	for index = 1, strokes.n do
 		local shown = highlightedRoutes and highlightedRoutes[strokes.route[index]]
@@ -287,7 +287,7 @@ function TransportsRoutePinMixin:UpdateAlpha()
 	end
 end
 
-function TransportsRoutePinMixin:Draw()
+function MapTweaksRoutePinMixin:Draw()
 	local map = self:GetMap()
 	local canvas = map:GetCanvas()
 	self.drawMap, self.drawWidth, self.drawHeight, self.drawScale =
@@ -306,24 +306,24 @@ function TransportsRoutePinMixin:Draw()
 	self:UpdateAlpha()
 end
 
-function TransportsRoutePinMixin:OnAcquired(paths)
+function MapTweaksRoutePinMixin:OnAcquired(paths)
 	self.paths = paths
 	self:Draw()
 end
 
-function TransportsRoutePinMixin:OnCanvasScaleChanged()
+function MapTweaksRoutePinMixin:OnCanvasScaleChanged()
 	if self.paths then
 		self:Draw()
 	end
 end
 
-function TransportsRoutePinMixin:OnCanvasSizeChanged()
+function MapTweaksRoutePinMixin:OnCanvasSizeChanged()
 	if self.paths then
 		self:Draw()
 	end
 end
 
-function TransportsRoutePinMixin:OnReleased()
+function MapTweaksRoutePinMixin:OnReleased()
 	self.paths = nil
 	MapCanvasPinMixin.OnReleased(self)
 end

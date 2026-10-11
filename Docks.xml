@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<!-- Adapted from Shortest Path Forever by cjber, GPL-3.0-or-later. -->
-	<Frame name="TransportsDockPinTemplate" inherits="BaseHighlightableMapPoiPinTemplate"
-		mixin="TransportsDockPinMixin" enableMouse="true" virtual="true">
+	<Frame name="MapTweaksDockPinTemplate" inherits="BaseHighlightableMapPoiPinTemplate"
+		mixin="MapTweaksDockPinMixin" enableMouse="true" virtual="true">
 		<Layers>
 			<Layer level="BACKGROUND">
 				<!-- Square glow, 18 past every side of the pin. -->
@@ -14,6 +14,6 @@
 			</Layer>
 		</Layers>
 	</Frame>
-	<Frame name="TransportsPingPinTemplate" inherits="MapPinPingTemplate" virtual="true"/>
-	<Frame name="TransportsRoutePinTemplate" mixin="TransportsRoutePinMixin" virtual="true"/>
+	<Frame name="MapTweaksPingPinTemplate" inherits="MapPinPingTemplate" virtual="true"/>
+	<Frame name="MapTweaksRoutePinTemplate" mixin="MapTweaksRoutePinMixin" virtual="true"/>
 </Ui>

@@ -11,8 +11,9 @@ exclude_files = {
 }
 
 globals = {
-	"TransportsDockPinMixin",
-	"TransportsRoutePinMixin",
+	"MapTweaksDockPinMixin",
+	"MapTweaksEntrancePinMixin",
+	"MapTweaksRoutePinMixin",
 }
 
 read_globals = {
@@ -22,16 +23,25 @@ read_globals = {
 	"Enum",
 
 	"AM_PIN_SCALE_STYLE_WITH_TERRAIN",
+	"AreaLabelDataProviderMixin",
+	"BaseMapPoiPinMixin",
 	"Clamp",
 	"CreateColor",
 	"CreateFrame",
 	"CreateFromMixins",
+	"CreateTexturePool",
 	"CreateVector2D",
+	"C_MapExplorationInfo",
+	"C_SuperTrack",
+	"FONT_COLOR_CODE_CLOSE",
 	"GameTooltip",
 	"GameTooltip_AddColoredDoubleLine",
 	"GameTooltip_AddColoredLine",
 	"GameTooltip_AddInstructionLine",
 	"GameTooltip_SetTitle",
+	"GetCVarBool",
+	"GetRealZoneText",
+	"GetRelativeDifficultyColor",
 	"GRAY_FONT_COLOR",
 	"HIGHLIGHT_FONT_COLOR",
 	"InCombatLockdown",
@@ -41,10 +51,13 @@ read_globals = {
 	"MapCanvasPinMixin",
 	"MenuUtil",
 	"NORMAL_FONT_COLOR",
+	"RGBTableToColorCode",
 	"PIN_FRAME_LEVEL_FOG_OF_WAR",
 	"PIN_FRAME_LEVEL_GOSSIP",
 	"PIN_FRAME_LEVEL_QUEST_PING",
 	"Saturate",
+	"UiMapPoint",
+	"UnitEffectiveLevel",
 	"UNKNOWN",
 	"WorldMapFrame",
 }
