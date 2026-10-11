@@ -1,8 +1,8 @@
 # Changelog
 
-## 1.3.0
+## 1.3.1
 
-Minimap button, and fewer stale pins when the map changes in combat.
+Minimap button, fewer stale pins when the map changes in combat, and a lighter map.
 
 ### Added
 
@@ -11,6 +11,14 @@ Minimap button, and fewer stale pins when the map changes in combat.
 ### Fixed
 
 - A map change in combat no longer leaves the previous map's dock pins and route lines on screen. They are released and rebuilt when combat ends.
+- The waypoint hint only shows on maps that allow waypoints.
+- A dock ping is not placed in combat.
+
+### Performance
+
+- Route lines rescale without a full redraw when the map zooms.
+- Dock, destination, and entrance lookups are cached.
+- The unexplored tint no longer redraws on every zoom step.
 
 ### Changed
 

@@ -1,9 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<!-- Adapted from Tweaks Forever by cjber, GPL-3.0-or-later. -->
 	<Frame name="MapTweaksEntrancePinTemplate" inherits="BaseHighlightableMapPoiPinTemplate"
-		enableMouseClicks="true" mixin="MapTweaksEntrancePinMixin" virtual="true">
-		<Scripts>
-			<OnLoad method="OnLoad"/>
-		</Scripts>
-	</Frame>
+		enableMouseClicks="true" mixin="MapTweaksEntrancePinMixin" virtual="true"/>
 </Ui>

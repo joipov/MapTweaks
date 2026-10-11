@@ -119,7 +119,14 @@ local function IsDockMap(location, mapID)
 	return false
 end
 
+-- Dock pins per map. The dock table is static, so the result is cached.
+local mapDocksCache = {}
+
 local function MapDocks(mapID)
+	local cached = mapDocksCache[mapID]
+	if cached then
+		return cached
+	end
 	local docks = {}
 	for dockID, dock in ipairs(ns.Docks) do
 		local location = ns.DockLocation(dockID)
@@ -130,6 +137,7 @@ local function MapDocks(mapID)
 			end
 		end
 	end
+	mapDocksCache[mapID] = docks
 	return docks
 end
 
@@ -212,8 +220,14 @@ local function LandingName(cluster, dock, kind)
 	return (name:gsub("^%l", string.upper))
 end
 
--- Other docks on the routes that call here.
+-- Other docks on the routes that call here. Cached per dock; the data is static.
+local destinationsCache = {}
+
 local function Destinations(dockID)
+	local cached = destinationsCache[dockID]
+	if cached then
+		return cached
+	end
 	local list, seen = {}, {}
 	for _, routeID in ipairs(ns.RoutesAtDock[dockID]) do
 		local path = ns.Routes[routeID]
@@ -230,6 +244,7 @@ local function Destinations(dockID)
 			end
 		end
 	end
+	destinationsCache[dockID] = list
 	return list
 end
 
@@ -420,6 +435,9 @@ function ProviderMixin:HideDestinations()
 end
 
 function ProviderMixin:Ping(x, y)
+	if InCombatLockdown() then
+		return
+	end
 	if not self.ping then
 		self.ping = self:GetMap():AcquirePin(PING_TEMPLATE)
 		self.ping:UseFrameLevelType("PIN_FRAME_LEVEL_QUEST_PING")

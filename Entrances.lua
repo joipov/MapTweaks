@@ -30,22 +30,28 @@ local function Atlas(entry)
 	return "Raid"
 end
 
+-- Name and description only change with the client locale, so cache per entry.
 local function Describe(entry)
+	if entry.cachedTitle ~= nil then
+		return entry.cachedTitle, entry.cachedLines
+	end
 	local names = {}
 	for i, instance in ipairs(entry.instances) do
 		names[i] = GetRealZoneText(instance)
 	end
 	local title = entry.area and C_Map.GetAreaInfo(entry.area) or table.remove(names, 1)
-	if #names == 0 then
-		return title
-	end
-	if entry.area and Atlas(entry) == "Dungeon" then
-		for i, instance in ipairs(entry.instances) do
-			local atlas = ns.RaidInstances[instance] and "Raid" or "Dungeon"
-			names[i] = Markup(atlas, 16) .. " " .. names[i]
+	local lines
+	if #names > 0 then
+		if entry.area and Atlas(entry) == "Dungeon" then
+			for i, instance in ipairs(entry.instances) do
+				local atlas = ns.RaidInstances[instance] and "Raid" or "Dungeon"
+				names[i] = Markup(atlas, 16) .. " " .. names[i]
+			end
 		end
+		lines = table.concat(names, "\n")
 	end
-	return title, table.concat(names, "\n")
+	entry.cachedTitle, entry.cachedLines = title, lines
+	return title, lines
 end
 
 local function Covers(x, y, mx, my, halfX, halfY)
@@ -98,7 +104,9 @@ function ns.SetupEntrances(map)
 	end
 
 	function Pin:GetTooltipInstructions()
-		return "Click to set a waypoint here"
+		if C_Map.CanSetUserWaypointOnMap(self:GetMap():GetMapID()) then
+			return "Click to set a waypoint here"
+		end
 	end
 
 	function Pin:OnMouseClickAction(button)

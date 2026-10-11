@@ -11,16 +11,19 @@ Scope: every `.lua` and `.xml`, the `.toc`, `tests/run.lua`, and the docs. `asse
 `Docks.lua` and `Lines.lua` returned early in combat without releasing pins, so the previous map's dock pins and route lines stayed on screen at wrong positions. **Fixed** — both providers release their pins and clear `mapID` before deferring.
 
 ### B1b — Ping acquired in combat
-`Docks.lua` `ProviderMixin:Ping` acquired a pin with no combat check. **Not changed** — the ping template has no mouse input, so it is not a taint risk; noted for a future pass.
+`Docks.lua` `ProviderMixin:Ping` acquired a pin with no combat check. **Fixed** — the ping is skipped in combat.
 
-### B1c — Waypoint click can do nothing
-`Entrances.lua` shows "Click to set a waypoint here" on maps that do not allow waypoints. **Not changed** — the tooltip should be conditioned on `CanSetUserWaypointOnMap`; deferred so it can be verified in game.
+### B1c — Waypoint hint on maps without waypoints
+`Entrances.lua` showed "Click to set a waypoint here" everywhere. **Fixed** — the hint only shows when `C_Map.CanSetUserWaypointOnMap` is true.
+
+### B1d — Redundant entrance `OnLoad`
+`Entrances.xml` ran `OnLoad` from XML and from `AcquirePin`. **Fixed** — the XML script is gone.
 
 ### B1h — luacheck W311
 `Docks.lua` assigned an unused `position`. **Fixed** — `uiMap, info = zoneMap, zone`.
 
 ### B2/PERF — Zoom-time redraws
-`Lines.lua` drew routes from both the pin and the provider, and `Exploration.lua` redrew the tint on every canvas scale change, and dock positions were recomputed each frame. **Not changed** — these are real, but they are best done with an in-game profiler and careful visual checks; recorded here for a dedicated performance pass.
+`Lines.lua` drew routes from both the pin and the provider, `Exploration.lua` redrew the tint on every canvas scale change, and dock positions were recomputed each frame. **Fixed** — the pin rescales its line thickness on zoom instead of redrawing, the provider no longer double-draws, the exploration tint no longer redraws on zoom, dock positions and destinations and entrance descriptions are cached, and decoded map art is cached per art id.
 
 ### CQ-001 — Saved database had no version or shape
 `LoadDB` only type-checked four booleans and shared nothing with the other addons. **Fixed** — `DB_VERSION`, `ns.firstRun`, fresh `minimapIcon` table, and a `Minimap button` setting.

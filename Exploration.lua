@@ -87,14 +87,16 @@ local function Unexplored(areas, explored)
 	return result
 end
 
-local cachedArt, cachedLayers
+-- Decoded art, cached per art id. Flipping between two zones does not decode twice.
+local artCache = {}
 
 local function Areas(art, layer)
-	if cachedArt ~= art then
-		cachedArt = art
-		cachedLayers = ns.Overlays[art] and Decode(ns.Overlays[art]) or {}
+	local layers = artCache[art]
+	if not layers then
+		layers = ns.Overlays[art] and Decode(ns.Overlays[art]) or {}
+		artCache[art] = layers
 	end
-	return cachedLayers[layer] or {}
+	return layers[layer] or {}
 end
 
 function ns.SetupExploration(map)
@@ -162,7 +164,6 @@ function ns.SetupExploration(map)
 		end
 	end
 	Provider.RefreshAllData = Draw
-	Provider.OnCanvasScaleChanged = Draw
 	ns.RefreshExploration = Draw
 	map:AddDataProvider(Provider)
 end

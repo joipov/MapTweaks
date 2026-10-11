@@ -30,10 +30,10 @@ local function NewStrokes()
 	}
 end
 
-local out, scale, width, height, fade, route
+local out, width, height, fade, route
 
-local function Begin(buffer, viewScale)
-	out, scale = buffer, viewScale
+local function Begin(buffer)
+	out = buffer
 	out.n = 0
 	fade, route = 1, nil
 end
@@ -46,8 +46,9 @@ local function Stroke(x1, y1, x2, y2, color)
 	n = n + 1
 	out.n = n
 	out.x1[n], out.y1[n], out.x2[n], out.y2[n] = x1, y1, x2, y2
-	out.width[n] = THICKNESS / scale
-	out.under[n] = UNDER_THICKNESS / scale
+	-- Base thickness; the draw scale is applied when the line is painted.
+	out.width[n] = THICKNESS
+	out.under[n] = UNDER_THICKNESS
 	out.alpha[n], out.color[n], out.route[n] = fade, color, route
 end
 
@@ -68,8 +69,7 @@ end
 
 local function Segment(x1, y1, x2, y2, low, high, color)
 	local dx, dy = x2 - x1, y2 - y1
-	local length = math.sqrt(dx * dx + dy * dy) * scale
-	if length == 0 or not low then
+	if (dx == 0 and dy == 0) or not low then
 		return
 	end
 	Stroke(x1 + low * dx, y1 + low * dy, x1 + high * dx, y1 + high * dy, color)
@@ -178,7 +178,7 @@ local function OverviewCrossing(position, mapID, path, color)
 end
 
 local function DrawPaths(buffer, paths, view)
-	Begin(buffer, view.scale)
+	Begin(buffer)
 	width, height = view.width, view.height
 	local mapID, position = view.mapID, view.position
 	for _, path in ipairs(paths) do
@@ -239,6 +239,7 @@ local highlightedRoutes, hoverOwner
 
 local function Paint(owner, strokes)
 	local lines, underlines = owner.lines, owner.underlines
+	local scale = owner.drawScale or 1
 	for index = 1, strokes.n do
 		local line, underline = lines[index], underlines[index]
 		if not line then
@@ -249,12 +250,12 @@ local function Paint(owner, strokes)
 			lines[index], underlines[index] = line, underline
 		end
 		local x1, y1, x2, y2 = strokes.x1[index], strokes.y1[index], strokes.x2[index], strokes.y2[index]
-		underline:SetThickness(strokes.under[index])
+		underline:SetThickness(strokes.under[index] / scale)
 		underline:SetStartPoint("TOPLEFT", owner, x1, y1)
 		underline:SetEndPoint("TOPLEFT", owner, x2, y2)
 		underline:Show()
 		line:SetVertexColor(strokes.color[index]:GetRGBA())
-		line:SetThickness(strokes.width[index])
+		line:SetThickness(strokes.width[index] / scale)
 		line:SetStartPoint("TOPLEFT", owner, x1, y1)
 		line:SetEndPoint("TOPLEFT", owner, x2, y2)
 		line:Show()
@@ -263,7 +264,6 @@ local function Paint(owner, strokes)
 		lines[index]:Hide()
 		underlines[index]:Hide()
 	end
-	owner.used = strokes.n
 end
 
 MapTweaksRoutePinMixin = CreateFromMixins(MapCanvasPinMixin)
@@ -273,7 +273,7 @@ function MapTweaksRoutePinMixin:OnLoad()
 	self:SetIgnoreGlobalPinScale(true)
 	self:SetScaleStyle(AM_PIN_SCALE_STYLE_WITH_TERRAIN)
 	self:EnableMouse(false)
-	self.lines, self.underlines, self.used = {}, {}, 0
+	self.lines, self.underlines = {}, {}
 	self.strokes = NewStrokes()
 end
 
@@ -290,8 +290,7 @@ end
 function MapTweaksRoutePinMixin:Draw()
 	local map = self:GetMap()
 	local canvas = map:GetCanvas()
-	self.drawMap, self.drawWidth, self.drawHeight, self.drawScale =
-		map:GetMapID(), canvas:GetWidth(), canvas:GetHeight(), self:GetEffectiveScale()
+	self.drawScale = self:GetEffectiveScale()
 	self:SetSize(canvas:GetWidth(), canvas:GetHeight())
 	self:SetPosition(0.5, 0.5)
 	local view = {
@@ -299,7 +298,6 @@ function MapTweaksRoutePinMixin:Draw()
 		position = ns.Project,
 		width = self:GetWidth(),
 		height = self:GetHeight(),
-		scale = self:GetEffectiveScale(),
 	}
 	DrawPaths(self.strokes, self.paths, view)
 	Paint(self, self.strokes)
@@ -311,9 +309,22 @@ function MapTweaksRoutePinMixin:OnAcquired(paths)
 	self:Draw()
 end
 
+-- The points do not move on zoom, only the on-screen thickness does.
+function MapTweaksRoutePinMixin:Rescale()
+	if not self.strokes or self.strokes.n == 0 then
+		return
+	end
+	local scale = self:GetEffectiveScale()
+	self.drawScale = scale
+	for index = 1, self.strokes.n do
+		self.lines[index]:SetThickness(self.strokes.width[index] / scale)
+		self.underlines[index]:SetThickness(self.strokes.under[index] / scale)
+	end
+end
+
 function MapTweaksRoutePinMixin:OnCanvasScaleChanged()
 	if self.paths then
-		self:Draw()
+		self:Rescale()
 	end
 end
 
@@ -396,13 +407,7 @@ function LineProviderMixin:RefreshAllData()
 	map:AcquirePin(TEMPLATE, Geometry())
 end
 
-function LineProviderMixin:OnCanvasScaleChanged()
-	for pin in self:GetMap():EnumeratePinsByTemplate(TEMPLATE) do
-		if pin.paths then
-			pin:Draw()
-		end
-	end
-end
+-- The pin handles its own OnCanvasScaleChanged; the provider does not redraw.
 
 function ns.SetupLines(map)
 	local provider = CreateFromMixins(LineProviderMixin)
