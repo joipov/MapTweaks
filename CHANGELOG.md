@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.3.0
+
+Minimap button, and fewer stale pins when the map changes in combat.
+
+### Added
+
+- A minimap button, via LibDBIcon when present and a built-in button otherwise. On by default. Click opens settings.
+
+### Fixed
+
+- A map change in combat no longer leaves the previous map's dock pins and route lines on screen. They are released and rebuilt when combat ends.
+
+### Changed
+
+- The saved-variables table now has a version and a shared shape with the other Joipov addons.
+- The addon loads only on the `forever` game type.
+
 ## 1.2.0
 
 The addon list name is Map Tweaks. Each world map feature can be turned off on its own.

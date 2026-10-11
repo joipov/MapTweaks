@@ -1,15 +1,40 @@
--- Saved variables for the four world map features. Each one defaults to on.
+-- Saved variables for the world map features and the minimap button.
 -- Plain Lua so tests/run.lua can exercise it without a client.
 local addonName, ns = ...
 
 ns.DISPLAY = "Map Tweaks"
 
+local DB_VERSION = 1
+local MINIMAP_POS = 250
+
+-- Scalars only. Tables are built fresh in EnsureTables.
 local defaults = {
 	docks = true,
 	exploration = true,
 	zoneLevels = true,
 	entrances = true,
+	showMinimapButton = true,
 }
+
+local function ClampNumber(value, lo, hi, fallback)
+	if type(value) ~= "number" or value ~= value then
+		return fallback
+	end
+	if value < lo then
+		return lo
+	end
+	if value > hi then
+		return hi
+	end
+	return value
+end
+
+local function EnsureTables(db)
+	if type(db.minimapIcon) ~= "table" then
+		db.minimapIcon = {}
+	end
+	db.minimapIcon.minimapPos = ClampNumber(db.minimapIcon.minimapPos, 0, 360, MINIMAP_POS)
+end
 
 function ns.Enabled(key)
 	local db = ns.db
@@ -20,31 +45,41 @@ function ns.Enabled(key)
 end
 
 function ns.LoadDB(saved)
-	local db = type(saved) == "table" and saved or {}
+	ns.firstRun = type(saved) ~= "table"
+	local db = ns.firstRun and {} or saved
 	for key, value in pairs(defaults) do
-		if type(db[key]) ~= "boolean" then
+		if type(db[key]) ~= type(value) then
 			db[key] = value
 		end
 	end
+	EnsureTables(db)
+	db.version = DB_VERSION
 	return db
 end
 
-local function Load()
-	ns.db = ns.LoadDB(MapTweaksDB)
-	MapTweaksDB = ns.db
-	if ns.InitOptions then
-		ns.InitOptions()
-	end
-end
-
 local frame = CreateFrame("Frame")
-frame:RegisterEvent("ADDON_LOADED")
-frame:SetScript("OnEvent", function(_, _, name)
+
+local handlers = {}
+
+function handlers.ADDON_LOADED(name)
 	if name ~= addonName then
 		return
 	end
 	frame:UnregisterEvent("ADDON_LOADED")
-	Load()
-end)
+	ns.db = ns.LoadDB(_G.MapTweaksDB)
+	_G.MapTweaksDB = ns.db
+	ns.InitOptions()
+end
 
-ns.DB_DEFAULTS = defaults
+-- Other addons load LibDBIcon by PLAYER_LOGIN.
+function handlers.PLAYER_LOGIN()
+	ns.CreateMinimapButton()
+end
+
+frame:SetScript("OnEvent", function(_, event, ...)
+	handlers[event](...)
+end)
+frame:RegisterEvent("ADDON_LOADED")
+frame:RegisterEvent("PLAYER_LOGIN")
+
+ns.DB_VERSION = DB_VERSION

@@ -10,6 +10,6 @@ The zone under the cursor shows its level range after the name, colored like a q
 
 Dungeon and raid entrances use the retail icons. Point at one for its name, including each wing of a complex such as Blackrock Mountain. Click one to set a waypoint. They follow the world map's own "Show instance entrances" checkbox, and an entrance under a flight point or a dock stays hidden.
 
-Each of the four can be turned off on its own, from Esc > Options > AddOns > Map Tweaks, from `/mt` or `/maptweaks`, or from the addon compartment.
+Each of the four can be turned off on its own, from Esc > Options > AddOns > Map Tweaks, from `/mt` or `/maptweaks`, or from the addon compartment and the minimap button.
 
-Nothing is drawn on the minimap. There is no departure timer and no walking path.
+There is no departure timer and no walking path.

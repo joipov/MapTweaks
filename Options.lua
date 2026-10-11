@@ -67,7 +67,7 @@ function _G.MapTweaks_OnAddonCompartmentEnter(_, owner)
 	end
 	GameTooltip:SetOwner(owner or UIParent, "ANCHOR_LEFT")
 	GameTooltip:AddLine(ns.DISPLAY)
-	GameTooltip:AddLine("Click to open settings", 1, 1, 1)
+	GameTooltip:AddLine("Click for settings.", 1, 1, 1)
 	GameTooltip:Show()
 end
 
@@ -84,6 +84,24 @@ function ns.InitOptions()
 
 	local category = Settings.RegisterVerticalLayoutCategory(ns.DISPLAY)
 	ns.settingsCategory = category
+
+	local minimapSetting = Settings.RegisterAddOnSetting(
+		category,
+		"MAPTWEAKS_SHOW_MINIMAP",
+		"showMinimapButton",
+		ns.db,
+		Settings.VarType.Boolean,
+		"Minimap button",
+		true
+	)
+	minimapSetting:SetValueChangedCallback(function()
+		ns.UpdateMinimapButton()
+	end)
+	Settings.CreateCheckbox(
+		category,
+		minimapSetting,
+		"Button on the minimap. Opens settings. Ellesmere puts it with the other addon buttons."
+	)
 
 	for _, option in ipairs(OPTIONS) do
 		local key = option.key

@@ -66,7 +66,7 @@ local function Resolve(point)
 		if zone and zone.mapType == Enum.UIMapType.Zone then
 			local zoneMap, zonePosition = C_Map.GetMapPosFromWorldPos(point.map, world, zone.mapID)
 			if zoneMap and zonePosition then
-				uiMap, position, info = zoneMap, zonePosition, zone
+				uiMap, info = zoneMap, zone
 			end
 		end
 	end
@@ -430,6 +430,11 @@ end
 
 function ProviderMixin:RefreshAllData()
 	if InCombatLockdown() then
+		-- Acquiring pins is blocked in combat, but releasing them is not: drop
+		-- any pins from the previous map so they do not sit at wrong positions.
+		ns.HoverRoutes(nil, nil)
+		self:RemoveAllData()
+		self.mapID = nil
 		ns.QueueRefresh()
 		return
 	end

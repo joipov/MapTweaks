@@ -374,6 +374,10 @@ end
 
 function LineProviderMixin:RefreshAllData()
 	if InCombatLockdown() then
+		-- Releasing pins is allowed in combat; acquiring them is not. Clear the
+		-- previous map's lines so they do not linger at wrong positions.
+		self:RemoveAllData()
+		self.mapID = nil
 		ns.QueueRefresh()
 		return
 	end
