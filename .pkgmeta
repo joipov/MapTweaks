@@ -1,0 +1,13 @@
+package-as: Transports
+
+# assets/ is CurseForge and Wago release media. It stays in git.
+# It is not unused, and it is not part of the addon zip.
+ignore:
+  - assets
+  - .annotations
+  - .github
+  - .cursor
+  - .luacheckrc
+  - .luarc.json
+
+manual-changelog: CHANGELOG.md

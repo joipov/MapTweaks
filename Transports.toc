@@ -1,0 +1,15 @@
+## Interface: 16001
+## Title: Transports
+## Notes: Boats and zeppelins on the world map. Hover a dock to see where it goes.
+## Author: Joipov
+## Version: 1.0.0
+## Category: |cffc4b5fdJoipov|r Tools
+## IconTexture: Interface\AddOns\Transports\media\zeppelin
+## X-License: GPL-3.0-or-later
+## X-Website: https://github.com/joipov/Transports
+## AllowLoadGameType: camelot
+
+Data.lua
+Lines.lua
+Map.xml
+Map.lua

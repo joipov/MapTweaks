@@ -1,0 +1,19 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<!-- Adapted from Shortest Path Forever by cjber, GPL-3.0-or-later. -->
+	<Frame name="TransportsDockPinTemplate" inherits="BaseHighlightableMapPoiPinTemplate"
+		mixin="TransportsDockPinMixin" enableMouse="true" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<!-- Square glow, 18 past every side of the pin. -->
+				<Texture parentKey="Glow" atlas="UI-QuestPoi-OuterGlow" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-18" y="18"/>
+						<Anchor point="BOTTOMRIGHT" x="18" y="-18"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="TransportsPingPinTemplate" inherits="MapPinPingTemplate" virtual="true"/>
+	<Frame name="TransportsRoutePinTemplate" mixin="TransportsRoutePinMixin" virtual="true"/>
+</Ui>
