@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.0
+
+The addon list name is Map Tweaks. Each world map feature can be turned off on its own.
+
+### Added
+
+- Settings for boats and zeppelins, unexplored areas, zone level ranges, and instance entrances. `/mt` or `/maptweaks` opens them, and so does the addon compartment.
+
 ## 1.1.0
 
 Renamed to MapTweaks. The world map also shows unexplored terrain, zone level ranges, and instance entrances.

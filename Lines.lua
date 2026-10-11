@@ -330,7 +330,7 @@ end
 
 -- routes is [route id] = true while owner is the hovered dock, or nil to clear that hover.
 function ns.HoverRoutes(owner, routes)
-	if not routes and hoverOwner ~= owner then
+	if not routes and owner and hoverOwner ~= owner then
 		return
 	end
 	hoverOwner, highlightedRoutes = routes and owner or nil, routes

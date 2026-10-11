@@ -111,6 +111,9 @@ function ns.SetupExploration(map)
 		if pool then
 			pool:ReleaseAll()
 		end
+		if not ns.Enabled("exploration") then
+			return
+		end
 		local pin = ExplorationPin()
 		local mapID = map:GetMapID()
 		local info = mapID and C_Map.GetMapInfo(mapID)
@@ -160,5 +163,6 @@ function ns.SetupExploration(map)
 	end
 	Provider.RefreshAllData = Draw
 	Provider.OnCanvasScaleChanged = Draw
+	ns.RefreshExploration = Draw
 	map:AddDataProvider(Provider)
 end

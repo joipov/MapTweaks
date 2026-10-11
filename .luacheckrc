@@ -11,9 +11,16 @@ exclude_files = {
 }
 
 globals = {
+	"MapTweaksDB",
 	"MapTweaksDockPinMixin",
 	"MapTweaksEntrancePinMixin",
 	"MapTweaksRoutePinMixin",
+	"MapTweaks_OnAddonCompartmentClick",
+	"MapTweaks_OnAddonCompartmentEnter",
+	"MapTweaks_OnAddonCompartmentLeave",
+	"SLASH_MAPTWEAKS1",
+	"SLASH_MAPTWEAKS2",
+	SlashCmdList = { fields = { "MAPTWEAKS" } },
 }
 
 read_globals = {
@@ -55,7 +62,10 @@ read_globals = {
 	"PIN_FRAME_LEVEL_FOG_OF_WAR",
 	"PIN_FRAME_LEVEL_GOSSIP",
 	"PIN_FRAME_LEVEL_QUEST_PING",
+	"print",
 	"Saturate",
+	"Settings",
+	"UIParent",
 	"UiMapPoint",
 	"UnitEffectiveLevel",
 	"UNKNOWN",

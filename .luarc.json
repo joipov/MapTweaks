@@ -21,9 +21,16 @@
   ],
   "workspace.checkThirdParty": false,
   "diagnostics.globals": [
+    "MapTweaksDB",
     "MapTweaksDockPinMixin",
     "MapTweaksEntrancePinMixin",
-    "MapTweaksRoutePinMixin"
+    "MapTweaksRoutePinMixin",
+    "MapTweaks_OnAddonCompartmentClick",
+    "MapTweaks_OnAddonCompartmentEnter",
+    "MapTweaks_OnAddonCompartmentLeave",
+    "SLASH_MAPTWEAKS1",
+    "SLASH_MAPTWEAKS2",
+    "SlashCmdList"
   ],
   "diagnostics.severity": {
     "undefined-global": "Error",

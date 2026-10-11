@@ -129,7 +129,7 @@ function ns.SetupEntrances(map)
 			return
 		end
 		self:RemoveAllData()
-		if not GetCVarBool(CVAR) then
+		if not ns.Enabled("entrances") or not GetCVarBool(CVAR) then
 			return
 		end
 		for _, entry in ipairs(ns.DungeonEntrances[canvas:GetMapID()] or {}) do

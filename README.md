@@ -1,4 +1,4 @@
-# MapTweaks
+# Map Tweaks
 
 World map additions for World of Warcraft **Forever** (`camelot`, TOC `## Interface: 16001`).
 
@@ -6,6 +6,8 @@ World map additions for World of Warcraft **Forever** (`camelot`, TOC `## Interf
 - Unexplored zone terrain, drawn in a dim blue tint under the explored tiles.
 - The level range of the zone under the cursor, colored the way quest levels are.
 - Dungeon and raid entrances, using the retail icons. They follow the map's own "Show instance entrances" checkbox. Click one to set a waypoint.
+
+Each of those four can be turned off on its own. `/mt` or `/maptweaks` opens the settings, and so does the addon compartment. Esc > Options > AddOns > Map Tweaks opens the same panel.
 
 The docks and the zeppelin icon are adapted from [Shortest Path Forever](https://github.com/cjber/shortest-path-forever) by cjber. The overlays, zone ranges, and entrance pins are adapted from [Tweaks Forever](https://github.com/cjber/tweaks-forever) by cjber. Both are GPL-3.0-or-later, and so is this addon. It does not calculate paths, track departure times, or put anything on the minimap.
 

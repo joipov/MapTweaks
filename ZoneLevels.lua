@@ -53,19 +53,27 @@ function ns.SetupZoneLevels(map)
 	-- map's data providers then failed, so the label's own update is what adds the range after it draws.
 	for other in pairs(map.dataProviders) do
 		if other.OnSetAreaLabel == AreaLabelDataProviderMixin.OnSetAreaLabel then
-			local shown
+			local shown, plain
 			other.Label:HookScript("OnUpdate", function(label)
 				local text = label.Name:GetText()
+				if not ns.Enabled("zoneLevels") then
+					if plain and text == shown then
+						label.Name:SetText(plain)
+					end
+					shown, plain = nil, nil
+					return
+				end
 				if text == shown then
 					return
 				end
 				local zone = text and Zone(text)
 				if not zone then
-					shown = text
+					shown, plain = text, nil
 					return
 				end
 				local level = UnitEffectiveLevel("player")
 				local color = GetRelativeDifficultyColor(level, ChallengeLevel(level, zone.low, zone.high))
+				plain = text
 				shown = text
 					.. RGBTableToColorCode(color)
 					.. " ("

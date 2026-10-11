@@ -430,6 +430,12 @@ function ProviderMixin:RefreshAllData()
 		ns.QueueRefresh()
 		return
 	end
+	if not ns.Enabled("docks") then
+		ns.HoverRoutes(nil, nil)
+		self:RemoveAllData()
+		self.mapID = nil
+		return
+	end
 	local map = self:GetMap()
 	local mapID = map:GetMapID()
 	if not (mapID and map:IsVisible()) then
