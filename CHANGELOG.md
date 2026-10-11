@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.2
+
+The login line shows the addon name and version. The Joipov name color is a brighter violet.
+
+### Changed
+
+- The login line reads Joipov <name> (v<version>). The name and version come from the TOC, so they never drift. The version is a different color.
+- Joipov is now a saturated violet.
+
 ## 1.3.1
 
 Minimap button, fewer stale pins when the map changes in combat, and a lighter map.

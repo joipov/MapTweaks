@@ -73,6 +73,7 @@ end
 
 -- Other addons load LibDBIcon by PLAYER_LOGIN.
 function handlers.PLAYER_LOGIN()
+	ns.Welcome()
 	ns.CreateMinimapButton()
 end
 
