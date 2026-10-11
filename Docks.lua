@@ -111,7 +111,10 @@ local function IsDockMap(location, mapID)
 		if info.mapID == mapID then
 			return true
 		end
-		info = info.parentMapID ~= 0 and C_Map.GetMapInfo(info.parentMapID) or nil
+		if info.parentMapID == 0 then
+			return false
+		end
+		info = C_Map.GetMapInfo(info.parentMapID)
 	end
 	return false
 end

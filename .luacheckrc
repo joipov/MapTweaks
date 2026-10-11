@@ -10,6 +10,16 @@ exclude_files = {
 	"assets/",
 }
 
+-- Unit tests run under plain Lua 5.1 / LuaJIT. Database.lua creates one event
+-- frame at load, which the test stubs.
+files["tests/"] = {
+	std = "lua51",
+	globals = {
+		"CreateFrame",
+		"MapTweaksDB",
+	},
+}
+
 globals = {
 	"MapTweaksDB",
 	"MapTweaksDockPinMixin",

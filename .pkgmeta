@@ -9,5 +9,8 @@ ignore:
   - .cursor
   - .luacheckrc
   - .luarc.json
+  - tests
+  - CODE_AUDIT.md
+  - package.ps1
 
 manual-changelog: CHANGELOG.md

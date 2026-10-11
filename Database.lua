@@ -1,4 +1,5 @@
 -- Saved variables for the four world map features. Each one defaults to on.
+-- Plain Lua so tests/run.lua can exercise it without a client.
 local addonName, ns = ...
 
 ns.DISPLAY = "Map Tweaks"
@@ -18,18 +19,19 @@ function ns.Enabled(key)
 	return db[key] ~= false
 end
 
-local function Load()
-	local db = MapTweaksDB
-	if type(db) ~= "table" then
-		db = {}
-		MapTweaksDB = db
-	end
+function ns.LoadDB(saved)
+	local db = type(saved) == "table" and saved or {}
 	for key, value in pairs(defaults) do
 		if type(db[key]) ~= "boolean" then
 			db[key] = value
 		end
 	end
-	ns.db = db
+	return db
+end
+
+local function Load()
+	ns.db = ns.LoadDB(MapTweaksDB)
+	MapTweaksDB = ns.db
 	if ns.InitOptions then
 		ns.InitOptions()
 	end
@@ -44,3 +46,5 @@ frame:SetScript("OnEvent", function(_, _, name)
 	frame:UnregisterEvent("ADDON_LOADED")
 	Load()
 end)
+
+ns.DB_DEFAULTS = defaults
