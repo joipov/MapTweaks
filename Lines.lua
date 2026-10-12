@@ -4,14 +4,14 @@
 local _, ns = ...
 
 local TEMPLATE = "MapTweaksRoutePinTemplate"
-local THICKNESS = 2
+local THICKNESS = 3
 local UNDER_THICKNESS = THICKNESS + 2
 local UNDER_ALPHA = 0.5
 local LIMIT = 4096
 
 local COLORS = {
-	boat = CreateColor(0, 0.75, 1),
-	zeppelin = CreateColor(1, 0.35, 0.1),
+	boat = CreateColor(0.13, 0.83, 0.93),
+	zeppelin = CreateColor(0.96, 0.72, 0.26),
 }
 
 -- Strokes in drawing order. Coordinates are canvas pixels, x right and y up from the pin's top left.

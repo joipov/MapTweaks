@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.5
+
+Boat and zeppelin routes are easier to tell apart, and the lines are a pixel thicker.
+
+### Changed
+
+- Boat routes are a lighter cyan, and zeppelin routes are brass.
+- Route lines are 3 px thick, with the dark outline still one pixel around the stroke.
+
 ## 1.3.4
 
 The minimap button tooltip is shorter.
