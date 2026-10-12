@@ -1,6 +1,14 @@
 # Changelog
 
-## Unreleased
+## 1.3.4
+
+The minimap button tooltip is shorter.
+
+### Changed
+
+- The minimap button tooltip says the button opens settings.
+
+## 1.3.3
 
 New dungeon entrances on the world map.
 
