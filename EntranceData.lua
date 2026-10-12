@@ -25,6 +25,7 @@ ns.DungeonEntrances = {
 		{ x = 0.478, y = 0.195, instances = { 189 } }, -- Scarlet Monastery
 		{ x = 0.527, y = 0.264, instances = { 289 } }, -- Scholomance
 		{ x = 0.41, y = 0.328, instances = { 33 } }, -- Shadowfang Keep
+		{ x = 0.529, y = 0.487, instances = { 2998 } }, -- Excavation Site: Wetlands
 		{ x = 0.428, y = 0.538, instances = { 90 } }, -- Gnomeregan
 		{ x = 0.538, y = 0.576, instances = { 70 } }, -- Uldaman
 		{ x = 0.486, y = 0.637, instances = { 229, 230, 409, 469 }, area = 25 }, -- Blackrock Mountain
@@ -33,13 +34,18 @@ ns.DungeonEntrances = {
 		{ x = 0.407, y = 0.796, instances = { 36 } }, -- Deadmines
 		{ x = 0.489, y = 0.826, instances = { 309 } }, -- Zul'Gurub
 	},
+	[1416] = { -- Alterac Mountains
+		{ x = 0.088, y = 0.596, instances = { 2959 } }, -- City of Dalaran
+	},
 	[1418] = { -- Badlands
 		{ x = 0.352, y = 0.103, instances = { 70 } }, -- Uldaman
 	},
 	[1420] = { -- Tirisfal Glades
 		{ x = 0.851, y = 0.314, instances = { 189 } }, -- Scarlet Monastery
+		{ x = 0.631, y = 0.675, instances = { 2999 } }, -- Ruins of Lordaeron
 	},
 	[1421] = { -- Silverpine Forest
+		{ x = 0.684, y = 0.454, instances = { 2959 } }, -- City of Dalaran
 		{ x = 0.447, y = 0.678, instances = { 33 } }, -- Shadowfang Keep
 	},
 	[1422] = { -- Western Plaguelands
@@ -66,6 +72,9 @@ ns.DungeonEntrances = {
 	[1436] = { -- Westfall
 		{ x = 0.382, y = 0.775, instances = { 36 } }, -- Deadmines
 	},
+	[1437] = { -- Wetlands
+		{ x = 0.538, y = 0.659, instances = { 2998 } }, -- Excavation Site: Wetlands
+	},
 	[1440] = { -- Ashenvale
 		{ x = 0.165, y = 0.11, instances = { 48 } }, -- Blackfathom Deeps
 	},
@@ -89,6 +98,15 @@ ns.DungeonEntrances = {
 	},
 	[1454] = { -- Orgrimmar
 		{ x = 0.53, y = 0.489, instances = { 389 } }, -- Ragefire Chasm
+	},
+	[1455] = { -- Ironforge
+		{ x = 0.278, y = 0.479, instances = { 3065 } }, -- The Hall of Thanes
+	},
+	[1458] = { -- Undercity
+		{ x = 0.724, y = 0.115, instances = { 2999 } }, -- Ruins of Lordaeron
+	},
+	[2980] = { -- Dalaran City
+		{ x = 0.147, y = 0.630, instances = { 2959 } }, -- City of Dalaran
 	},
 }
 ns.RaidInstances = {

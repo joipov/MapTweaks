@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+New dungeon entrances on the world map.
+
+### Added
+
+- A dungeon entrance pin for Excavation Site: Wetlands, on the Wetlands map and on Eastern Kingdoms.
+- The Hall of Thanes, in Ironforge.
+- Ruins of Lordaeron, on the Tirisfal Glades and Undercity maps.
+- City of Dalaran, on the Alterac Mountains, Silverpine Forest, and Dalaran City maps.
+
 ## 1.3.2
 
 The login line shows the addon name and version. The Joipov name color is a brighter violet.
