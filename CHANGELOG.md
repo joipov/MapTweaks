@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.6
+
+The map data was checked against Forever 1.60.1.70374. Boats, zeppelins, unexplored terrain, zone levels, and dungeon entrances are unchanged.
+
+### Changed
+
+- Overlay and zone level sources now cite Forever build 1.60.1.70374.
+
 ## 1.3.5
 
 Boat and zeppelin routes are easier to tell apart, and the lines are a pixel thicker.
