@@ -1,6 +1,7 @@
 -- Adapted from Shortest Path Forever by cjber, GPL-3.0-or-later.
 -- https://github.com/cjber/shortest-path-forever
 -- Boat and zeppelin docks and the sampled crossing. Lifts, the tram, times, and walk points are omitted.
+-- Source: Shortest Path Forever routes, Forever build 1.60.1.70425.
 local _, ns = ...
 
 -- Continent world position. 0 is the Eastern Kingdoms and 1 is Kalimdor; other ids are that point's continent.
@@ -418,7 +419,7 @@ ns.Routes = {
 			{ map = 2991, x = 1827.3, y = 847.8 },
 			{ map = 2991, x = 1735.6, y = 849.0 },
 			{ map = 2991, x = 1633.3, y = 788.6 },
-			{ map = 2991, x = 1459.8, y = 644.7, jump = true },
+			{ map = 2991, x = 1342.5, y = 545.7, jump = true },
 		},
 	},
 	[11457] = {
@@ -439,7 +440,7 @@ ns.Routes = {
 			{ map = 2991, x = 1332.3, y = 593.2 },
 			{ map = 2991, x = 1582.3, y = 716.8 },
 			{ map = 2991, x = 1757.3, y = 822.9 },
-			{ map = 2991, x = 1924.0, y = 946.0 },
+			{ map = 2991, x = 1903.2, y = 942.8 },
 			{ map = 2991, x = 1952.5, y = 1019.1 },
 			{ map = 2991, x = 1982.3, y = 1132.2 },
 			{ map = 2991, x = 2086.4, y = 1188.7 },

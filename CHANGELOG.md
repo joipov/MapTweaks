@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.7
+
+The map data was checked against Forever 1.60.1.70425. Two Skyborne crossings follow the new course. Unexplored terrain, zone levels, and dungeon entrances are unchanged.
+
+### Changed
+
+- The Alliance skyship between Dalaran and Valanaar closes its loop farther west on Zephras Isle.
+- The Horde zeppelin between Thunder Bluff and Zephras Isle bends slightly earlier on the approach to the island.
+- Overlay, zone level, and route sources now cite Forever build 1.60.1.70425.
+
 ## 1.3.6
 
 The map data was checked against Forever 1.60.1.70374. Boats, zeppelins, unexplored terrain, zone levels, and dungeon entrances are unchanged.
