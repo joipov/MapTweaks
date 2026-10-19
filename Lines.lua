@@ -1,17 +1,15 @@
--- Adapted from Shortest Path Forever by cjber, GPL-3.0-or-later.
--- https://github.com/cjber/shortest-path-forever
 -- The world-map crossing: a solid line with a dark outline, and a curve where the route changes continent.
 local _, ns = ...
 
 local TEMPLATE = "MapTweaksRoutePinTemplate"
-local THICKNESS = 3
+local THICKNESS = 2
 local UNDER_THICKNESS = THICKNESS + 2
 local UNDER_ALPHA = 0.5
 local LIMIT = 4096
 
 local COLORS = {
-	boat = CreateColor(0.13, 0.83, 0.93),
-	zeppelin = CreateColor(0.96, 0.72, 0.26),
+	boat = CreateColor(139 / 255, 92 / 255, 246 / 255),
+	zeppelin = CreateColor(139 / 255, 92 / 255, 246 / 255),
 }
 
 -- Strokes in drawing order. Coordinates are canvas pixels, x right and y up from the pin's top left.
@@ -164,6 +162,9 @@ end
 
 -- Both ends of a sea crossing are on this map, so one arc stands in for the sampled path.
 local function OverviewCrossing(position, mapID, path, color)
+	if path.mode ~= "boat" and path.mode ~= "zeppelin" then
+		return false
+	end
 	local first, last = path.points[1], path.points[#path.points]
 	if not first or first.map == last.map then
 		return false
@@ -175,6 +176,37 @@ local function OverviewCrossing(position, mapID, path, color)
 		return true
 	end
 	return false
+end
+
+local function SameDock(a, b)
+	return a.map == b.map and math.abs(a.x - b.x) < 0.05 and math.abs(a.y - b.y) < 0.05
+end
+
+-- Samples between two docks on a looped crossing, pier to pier.
+local function LegPoints(route, fromDock, toDock)
+	local points = { { map = fromDock.map, x = fromDock.x, y = fromDock.y } }
+	local frames = route.frames
+	local n = #frames
+	local startIndex
+	for index = 1, n do
+		local frame = frames[index]
+		if SameDock(frame, fromDock) then
+			startIndex = index
+			points[1].jump = frame.jump
+			break
+		end
+	end
+	if startIndex then
+		for offset = 1, n - 1 do
+			local frame = frames[(startIndex + offset - 1) % n + 1]
+			if SameDock(frame, toDock) then
+				break
+			end
+			points[#points + 1] = { map = frame.map, x = frame.x, y = frame.y, jump = frame.jump }
+		end
+	end
+	points[#points + 1] = { map = toDock.map, x = toDock.x, y = toDock.y }
+	return points
 end
 
 local function DrawPaths(buffer, paths, view)
@@ -364,7 +396,15 @@ local function Geometry()
 	table.sort(ids)
 	for _, id in ipairs(ids) do
 		local path = ns.Routes[id]
-		geometry[#geometry + 1] = { mode = path.kind, route = id, points = path.frames }
+		local stops = path.stops
+		for index, dockID in ipairs(stops) do
+			local nextID = stops[index % #stops + 1]
+			geometry[#geometry + 1] = {
+				mode = path.kind,
+				route = id,
+				points = LegPoints(path, ns.Docks[dockID], ns.Docks[nextID]),
+			}
+		end
 	end
 	return geometry
 end

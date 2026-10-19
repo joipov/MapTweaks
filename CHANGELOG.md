@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.3.9
+
+Boat and zeppelin crossings draw dock to dock again, with a thinner stroke. Color stays Joipov violet.
+
+### Fixed
+
+- Overview and zone maps no longer draw the full loop past the docks; each crossing is pier to pier.
+
+### Changed
+
+- Route lines are 2 px thick again, with a 1 px dark outline around the stroke.
+
+## 1.3.8
+
+Boat and zeppelin crossings use the same Joipov violet.
+
+### Changed
+
+- Boat and zeppelin route lines are both Joipov violet (`#8b5cf6`).
+
 ## 1.3.7
 
 The map data was checked against Forever 1.60.1.70425. Two Skyborne crossings follow the new course. Unexplored terrain, zone levels, and dungeon entrances are unchanged.
