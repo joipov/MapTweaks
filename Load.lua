@@ -24,6 +24,33 @@ function ns.QueueRefresh()
 	end
 end
 
+-- Login and load. The event frame lives here, not in Database.lua, so the
+-- saved-variables file stays plain Lua for the tests.
+local bootFrame = CreateFrame("Frame")
+local bootHandlers = {}
+
+function bootHandlers.ADDON_LOADED(name)
+	if name ~= addonName then
+		return
+	end
+	bootFrame:UnregisterEvent("ADDON_LOADED")
+	ns.db = ns.LoadDB(_G.MapTweaksDB)
+	_G.MapTweaksDB = ns.db
+	ns.InitOptions()
+end
+
+-- Other addons load LibDBIcon by PLAYER_LOGIN.
+function bootHandlers.PLAYER_LOGIN()
+	ns.Welcome()
+	ns.CreateMinimapButton()
+end
+
+bootFrame:SetScript("OnEvent", function(_, event, ...)
+	bootHandlers[event](...)
+end)
+bootFrame:RegisterEvent("ADDON_LOADED")
+bootFrame:RegisterEvent("PLAYER_LOGIN")
+
 local installed = false
 
 local function Install()

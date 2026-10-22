@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.3.10
+
+Entrance pins settle against current travel pins, and the transport data is pinned to the current client build.
+
+### Fixed
+
+- Dungeon and raid entrance pins now step aside for the boat, zeppelin, and flight pins placed by current Shortest Path Forever and Tweaks Forever, which no longer use the map's own pin pools.
+- Discovering an area with the world map open redraws the unexplored tint at once.
+
+### Changed
+
+- Entrance pins check what covers them once per settle pass instead of once per pin.
+- The adapted files now name their GPL source in each file, and the transport, zone-level, overlay, and entrance data is marked as verified for client build 1.60.1.70450.
+
 ## 1.3.9
 
 Boat and zeppelin crossings draw dock to dock again, with a thinner stroke. Color stays Joipov violet.

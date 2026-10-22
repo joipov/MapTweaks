@@ -67,17 +67,51 @@ function ns.SetupEntrances(map)
 		return COVER / (canvas:GetWidth() * scale), COVER / (canvas:GetHeight() * scale)
 	end
 
-	local function Covered(pin, halfX, halfY)
+	-- Marker positions are collected once per settle tick and shared by
+	-- every pin, instead of re-enumerating the pin templates per pin.
+	local function CollectMarkers()
+		local markers = {}
+		for _, template in ipairs(MARKERS) do
+			for marker in map:EnumeratePinsByTemplate(template) do
+				local mx, my = marker:GetPosition()
+				if mx and my and marker:IsShown() then
+					markers[#markers + 1] = { x = mx, y = my }
+				end
+			end
+		end
+		-- Shortest Path Forever and Tweaks Forever no longer place pins in
+		-- the map pools; they publish positions in ForeverMapMarkers. Read
+		-- the global fresh each time, as its publishers require, and treat
+		-- anything that is not a plain position as absent.
+		local published = _G.ForeverMapMarkers
+		if type(published) == "table" then
+			for _, provider in pairs(published) do
+				if type(provider) == "function" then
+					local ok, list = pcall(provider, map)
+					if ok and type(list) == "table" then
+						for i = 1, #list do
+							local entry = list[i]
+							if type(entry) == "table"
+								and type(entry.x) == "number" and type(entry.y) == "number" then
+								markers[#markers + 1] = { x = entry.x, y = entry.y }
+							end
+						end
+					end
+				end
+			end
+		end
+		return markers
+	end
+
+	local function Covered(pin, halfX, halfY, markers)
 		local x, y = pin:GetPosition()
 		if not x or not y then
 			return false
 		end
-		for _, template in ipairs(MARKERS) do
-			for marker in map:EnumeratePinsByTemplate(template) do
-				local mx, my = marker:GetPosition()
-				if mx and marker:IsShown() and Covers(x, y, mx, my, halfX, halfY) then
-					return true
-				end
+		markers = markers or CollectMarkers()
+		for i = 1, #markers do
+			if Covers(x, y, markers[i].x, markers[i].y, halfX, halfY) then
+				return true
 			end
 		end
 		return false
@@ -167,8 +201,9 @@ function ns.SetupEntrances(map)
 		end
 		elapsed = 0
 		local halfX, halfY = HalfExtents()
+		local markers = CollectMarkers()
 		for pin in map:EnumeratePinsByTemplate(TEMPLATE) do
-			pin:SetShown(not Covered(pin, halfX, halfY))
+			pin:SetShown(not Covered(pin, halfX, halfY, markers))
 		end
 	end)
 end

@@ -99,7 +99,7 @@ function ns.InitOptions()
 		ns.db,
 		Settings.VarType.Boolean,
 		"Minimap button",
-		true
+		ns.defaults.showMinimapButton
 	)
 	minimapSetting:SetValueChangedCallback(function()
 		ns.UpdateMinimapButton()
@@ -119,7 +119,7 @@ function ns.InitOptions()
 			ns.db,
 			Settings.VarType.Boolean,
 			option.label,
-			true
+			ns.defaults[key]
 		)
 		setting:SetValueChangedCallback(function()
 			Apply(key)

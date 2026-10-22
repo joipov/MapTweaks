@@ -1,3 +1,5 @@
+-- Adapted from Shortest Path Forever by cjber, GPL-3.0-or-later.
+-- https://github.com/cjber/shortest-path-forever
 -- The world-map crossing: a solid line with a dark outline, and a curve where the route changes continent.
 local _, ns = ...
 
@@ -183,9 +185,9 @@ local function SameDock(a, b)
 end
 
 -- Samples between two docks on a looped crossing, pier to pier.
-local function LegPoints(route, fromDock, toDock)
+local function LegPoints(routeData, fromDock, toDock)
 	local points = { { map = fromDock.map, x = fromDock.x, y = fromDock.y } }
-	local frames = route.frames
+	local frames = routeData.frames
 	local n = #frames
 	local startIndex
 	for index = 1, n do

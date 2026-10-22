@@ -2,7 +2,7 @@
 ## Title: Map Tweaks
 ## Notes: Boats, zeppelins, unexplored areas, zone levels, and instance entrances on the world map.
 ## Author: Joipov
-## Version: 1.3.9
+## Version: 1.3.10
 ## Category: |cff8b5cf6Joipov|r Tools
 ## IconTexture: Interface\AddOns\MapTweaks\media\zeppelin
 ## SavedVariables: MapTweaksDB
@@ -10,10 +10,10 @@
 ## AddonCompartmentFunc: MapTweaks_OnAddonCompartmentClick
 ## AddonCompartmentFuncOnEnter: MapTweaks_OnAddonCompartmentEnter
 ## AddonCompartmentFuncOnLeave: MapTweaks_OnAddonCompartmentLeave
-## X-License: GPL-3.0-or-later
-## X-Website: https://github.com/joipov/MapTweaks
 ## AllowLoadGameType: forever
 ## ExcludeLoadGameType: standard, classic
+## X-License: GPL-3.0-or-later
+## X-Website: https://github.com/joipov/MapTweaks
 
 Database.lua
 Transports.lua

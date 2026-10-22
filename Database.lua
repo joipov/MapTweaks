@@ -1,6 +1,6 @@
 -- Saved variables for the world map features and the minimap button.
 -- Plain Lua so tests/run.lua can exercise it without a client.
-local addonName, ns = ...
+local _, ns = ...
 
 ns.DISPLAY = "Map Tweaks"
 
@@ -44,43 +44,34 @@ function ns.Enabled(key)
 	return db[key] ~= false
 end
 
-function ns.LoadDB(saved)
-	ns.firstRun = type(saved) ~= "table"
-	local db = ns.firstRun and {} or saved
+local function CopyDefaults(db)
 	for key, value in pairs(defaults) do
 		if type(db[key]) ~= type(value) then
 			db[key] = value
 		end
 	end
-	EnsureTables(db)
+end
+
+local function MigrateDB(db)
+	if type(db.version) ~= "number" then
+		db.version = 0
+	end
+	-- No migrations yet. A new one goes here as an if db.version < N block.
 	db.version = DB_VERSION
+end
+
+local function Validate(db)
+	EnsureTables(db)
+end
+
+function ns.LoadDB(saved)
+	ns.firstRun = type(saved) ~= "table"
+	local db = ns.firstRun and {} or saved
+	MigrateDB(db)
+	CopyDefaults(db)
+	Validate(db)
 	return db
 end
 
-local frame = CreateFrame("Frame")
-
-local handlers = {}
-
-function handlers.ADDON_LOADED(name)
-	if name ~= addonName then
-		return
-	end
-	frame:UnregisterEvent("ADDON_LOADED")
-	ns.db = ns.LoadDB(_G.MapTweaksDB)
-	_G.MapTweaksDB = ns.db
-	ns.InitOptions()
-end
-
--- Other addons load LibDBIcon by PLAYER_LOGIN.
-function handlers.PLAYER_LOGIN()
-	ns.Welcome()
-	ns.CreateMinimapButton()
-end
-
-frame:SetScript("OnEvent", function(_, event, ...)
-	handlers[event](...)
-end)
-frame:RegisterEvent("ADDON_LOADED")
-frame:RegisterEvent("PLAYER_LOGIN")
-
 ns.DB_VERSION = DB_VERSION
+ns.defaults = defaults

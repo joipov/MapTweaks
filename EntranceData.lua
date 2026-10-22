@@ -1,6 +1,7 @@
 -- Adapted from Tweaks Forever by cjber, GPL-3.0-or-later.
 -- https://github.com/cjber/tweaks-forever
 -- Dungeon and raid entrances by UiMap ID. A pin lists its instances; one with an area is a complex.
+-- Verified against Forever build 1.60.1.70450; the Forever-only entrances (2998, 2999, 2959, 3065) are kept from the Joipov pass.
 local _, ns = ...
 
 ns.DungeonEntrances = {

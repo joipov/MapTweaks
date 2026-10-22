@@ -166,4 +166,15 @@ function ns.SetupExploration(map)
 	Provider.RefreshAllData = Draw
 	ns.RefreshExploration = Draw
 	map:AddDataProvider(Provider)
+
+	-- Discovering an area while the map is open redraws the tint at once
+	-- instead of leaving the dim tile over the new area until the next
+	-- map change.
+	local events = CreateFrame("Frame")
+	events:RegisterEvent("MAP_EXPLORATION_UPDATED")
+	events:SetScript("OnEvent", function()
+		if map:IsShown() then
+			Draw()
+		end
+	end)
 end
