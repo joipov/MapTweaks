@@ -1,11 +1,20 @@
 # Map Tweaks audit
 
-Target: World of Warcraft Forever, `## Interface: 16001` (client 1.60.1.70425), Lua 5.1.
+Target: World of Warcraft Forever, `## Interface: 16001` (client 1.60.1.70862), Lua 5.1.
 Upstream, both GPL-3.0-or-later and credited in each adapted file:
 Shortest Path Forever 1.21.8 and Tweaks Forever 0.15.2 (2026-10-21),
 HiddenMaps 1.0.0.
 
 This note is for development. It is not shipped in the addon zip.
+
+## What changed in 1.3.11
+
+- Re-checked the map pin surface against client 1.60.1.70862:
+  `MapCanvasPinMixin`, `AcquirePin`, `RemoveAllPinsByTemplate`,
+  `EnumeratePinsByTemplate`, `GetGlobalPinScale`, `UseFrameLevelType`,
+  `PIN_FRAME_LEVEL_GOSSIP`, and `PIN_FRAME_LEVEL_QUEST_PING` all keep their
+  shapes. No code change. The transport and entrance data were not
+  regenerated and stay marked verified for build 1.60.1.70450.
 
 ## Data verdict (verified 2026-10-21)
 

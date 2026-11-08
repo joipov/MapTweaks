@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.11
+
+Re-checked against the current Forever client; no code change was needed.
+
+### Changed
+
+- Verified against Forever client 1.60.1.70862. The transport and entrance data remain marked verified for build 1.60.1.70450.
+
 ## 1.3.10
 
 Entrance pins settle against current travel pins, and the transport data is pinned to the current client build.
