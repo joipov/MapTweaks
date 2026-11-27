@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.3.13
+
+Settings can be copied as a string and pasted on another character or computer.
+
+### Added
+
+- **Export profile** and **Import profile** in settings. Import reloads the UI.
+
+## 1.3.12
+
+The minimap button sits at the bottom of settings, after the four map features.
+
+### Changed
+
+- Settings order is boats, unexplored, zone levels, and entrances, then the minimap button.
+
 ## 1.3.11
 
 Re-checked against the current Forever client; no code change was needed.

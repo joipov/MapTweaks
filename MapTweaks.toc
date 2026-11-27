@@ -2,7 +2,7 @@
 ## Title: Map Tweaks
 ## Notes: Boats, zeppelins, unexplored areas, zone levels, and instance entrances on the world map.
 ## Author: Joipov
-## Version: 1.3.11
+## Version: 1.3.13
 ## Category: |cff8b5cf6Joipov|r Tools
 ## IconTexture: Interface\AddOns\MapTweaks\media\zeppelin
 ## SavedVariables: MapTweaksDB
@@ -29,4 +29,5 @@ Entrances.xml
 Entrances.lua
 Load.lua
 MinimapButton.lua
+Profile.lua
 Options.lua

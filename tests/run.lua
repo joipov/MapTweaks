@@ -23,6 +23,7 @@ local function load(file)
 end
 
 load("Database.lua")
+load("Profile.lua")
 load("Transports.lua")
 
 local passed, failed = 0, 0
@@ -92,6 +93,23 @@ test("Every route stop is a dock", function()
 			end
 		end
 	end
+end)
+
+test("profile export roundtrips settings", function()
+	ns.db = ns.LoadDB({ docks = false, exploration = false, minimapIcon = { minimapPos = 33 } })
+	local str = ns.ExportProfile()
+	eq(str:sub(1, 14), "!JPV:MapTweaks", "prefix")
+	ns.db = ns.LoadDB(nil)
+	eq(ns.db.docks, true, "reset")
+	eq(ns.ImportProfile(str), true, "import")
+	eq(ns.db.docks, false, "docks")
+	eq(ns.db.exploration, false, "exploration")
+	eq(ns.db.minimapIcon.minimapPos, 33, "minimapPos")
+end)
+
+test("profile import rejects another addon", function()
+	ns.db = ns.LoadDB(nil)
+	eq(ns.ImportProfile("!JPV:GearStats!{docks=false}"), nil, "other")
 end)
 
 if failed > 0 then

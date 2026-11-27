@@ -92,6 +92,23 @@ function ns.InitOptions()
 	local category = Settings.RegisterVerticalLayoutCategory(ns.DISPLAY)
 	ns.settingsCategory = category
 
+	for _, option in ipairs(OPTIONS) do
+		local key = option.key
+		local setting = Settings.RegisterAddOnSetting(
+			category,
+			"MAPTWEAKS_" .. key:upper(),
+			key,
+			ns.db,
+			Settings.VarType.Boolean,
+			option.label,
+			ns.defaults[key]
+		)
+		setting:SetValueChangedCallback(function()
+			Apply(key)
+		end)
+		Settings.CreateCheckbox(category, setting, option.tip)
+	end
+
 	local minimapSetting = Settings.RegisterAddOnSetting(
 		category,
 		"MAPTWEAKS_SHOW_MINIMAP",
@@ -110,22 +127,7 @@ function ns.InitOptions()
 		"Button on the minimap. Opens settings."
 	)
 
-	for _, option in ipairs(OPTIONS) do
-		local key = option.key
-		local setting = Settings.RegisterAddOnSetting(
-			category,
-			"MAPTWEAKS_" .. key:upper(),
-			key,
-			ns.db,
-			Settings.VarType.Boolean,
-			option.label,
-			ns.defaults[key]
-		)
-		setting:SetValueChangedCallback(function()
-			Apply(key)
-		end)
-		Settings.CreateCheckbox(category, setting, option.tip)
-	end
+	ns.AddProfileShareButtons(category)
 
 	Settings.RegisterAddOnCategory(category)
 end
